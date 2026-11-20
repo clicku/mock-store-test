@@ -1,4 +1,4 @@
-﻿.env.local
-.wrangler/
+﻿.vscode/
 node_modules/
-media-local/
+*.zip
+.DS_Store
