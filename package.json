@@ -1,0 +1,10 @@
+{
+  "name": "mock-store",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Mock Kape storefront and API prototype",
+  "scripts": {
+    "dev": "npx serve public"
+  }
+}

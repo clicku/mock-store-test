@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mock Kape</title>
+  <style>
+    :root {
+      --bg: #faf7f2;
+      --card: #ffffff;
+      --text: #2c1e16;
+      --muted: #6f5e53;
+      --accent: #8b5a2b;
+      --border: #e8dfd5;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 2rem 1rem;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    header { margin-bottom: 1.75rem; }
+    header h1 { font-size: 1.75rem; letter-spacing: -0.02em; }
+    header p { color: var(--muted); margin-top: 0.25rem; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1.25rem;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .card img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      background: #e8dfd5;
+      display: block;
+    }
+    .card-body {
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 0.5rem;
+    }
+    .card-title { font-weight: 600; font-size: 1rem; }
+    .card-price { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Mock Kape</h1>
+    <p>Local store prototype</p>
+  </header>
+
+  <main id="menu" class="grid" aria-live="polite">Loading menu...</main>
+
+  <script>
+    const FALLBACK_PRODUCTS = [
+      {
+        name: "Iced Spanish Latte",
+        price: 145,
+        image: "./media-local/stores/mock-kape/spanish-latte.jpg"
+      },
+      {
+        name: "Barako Americano",
+        price: 110,
+        image: "./media-local/stores/mock-kape/barako-americano.jpg"
+      },
+      {
+        name: "Ube Cloud Latte",
+        price: 165,
+        image: "./media-local/stores/mock-kape/ube-cloud-latte.jpg"
+      },
+      {
+        name: "Iced Caramel Macchiato",
+        price: 155,
+        image: "./media-local/stores/mock-kape/caramel-macchiato.jpg"
+      },
+      {
+        name: "French Butter Croissant",
+        price: 95,
+        image: "./media-local/stores/mock-kape/butter-croissant.jpg"
+      }
+    ];
+
+    function renderProducts(items) {
+      const menu = document.getElementById("menu");
+      menu.innerHTML = items.map((p) => {
+        const imgSrc = p.image || p.image_url || "";
+        return `
+          <article class="card">
+            <img src="${imgSrc}" alt="${p.name}" loading="lazy" />
+            <div class="card-body">
+              <h2 class="card-title">${p.name}</h2>
+              <span class="card-price">₱${Number(p.price).toFixed(2)}</span>
+            </div>
+          </article>
+        `;
+      }).join("");
+    }
+
+    fetch("/api/products")
+      .then((res) => {
+        if (!res.ok) throw new Error("API unavailable");
+        return res.json();
+      })
+      .then(renderProducts)
+      .catch(() => renderProducts(FALLBACK_PRODUCTS));
+  </script>
+</body>
+</html>
