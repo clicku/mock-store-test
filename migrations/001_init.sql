@@ -1,7 +1,0 @@
-﻿CREATE TABLE IF NOT EXISTS products (
-  id INTEGER PRIMARY KEY,
-  slug TEXT NOT NULL UNIQUE,
-  name TEXT NOT NULL,
-  price INTEGER NOT NULL,
-  image_url TEXT
-);
