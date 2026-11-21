@@ -1,0 +1,8 @@
+name = "mock-store"
+version = "0.1.0"
+description = "Mock Kape storefront and API"
+
+[app]
+public_dir = "public"
+api_dir = "api"
+migrations_dir = "migrations"
